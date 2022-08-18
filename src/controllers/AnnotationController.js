@@ -1,3 +1,4 @@
+const { response } = require('express');
 const Annotations = require('../models/AnnotationData');
 
 
@@ -30,7 +31,14 @@ module.exports = {
         const { id } = req.params;
 
         const annotationDeleted = await Annotations.findOneAndDelete({ _id: id });
-        return annotationDeleted
+
+        if (annotationDeleted) {
+            return res.json(annotationDeleted) ;
+        }
+
+        return res.status(401).json({error : "Não encontrado"})
+
+        
     }
 }
 
